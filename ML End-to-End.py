@@ -94,4 +94,9 @@ from mlflow.utils.environment import _mlflow_conda_env
 import cloudpickle
 import time
 
-
+class SklearnModelWrapper(mlflow.pyfunc.PythonModel):
+  def __init__(self, model):
+    self.model = model
+    
+  def predict(self, context, model_input):
+    return self.model.predict_proba(model_input)[:,1]
